@@ -3,3 +3,17 @@
 ################################################################################
 
 /.vs/IMDbRND/v16
+/IMDbRND/bin
+/IMDbRND/obj
+/IMDbRND/Properties/PublishProfiles
+/Database/obj
+/Database/bin/Debug/netcoreapp3.1
+/.vs/IMDbRND/DesignTimeBuild
+/test/test.csproj
+/DatabaseTests
+/IMBDTgBot
+/IMDbRND/IMDb Library
+/IMDbRND/Titles
+/IMDbRND
+/IMDbRndTGbot
+/test
