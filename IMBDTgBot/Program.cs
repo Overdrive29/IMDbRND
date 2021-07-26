@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Telegram.Bot;
 using Telegram.Bot.Args;
@@ -7,14 +8,18 @@ namespace IMBDTgBot
 {
     class Program
     {
-        static string token = "888105801:AAGPkc1p3utwmntbz79NtzXC-v4qujxKZfg";
+        static string token = "";
         static ITelegramBotClient botClient;
+        static List<Title> Titles = new List<Title>();
 
         static void Main()
         {
             botClient = new TelegramBotClient(token);
-
-            var me = botClient.GetMeAsync().Result;
+            using (imdbContext context = new imdbContext())
+            {
+                Titles = context.Titles.ToList();
+            }
+                var me = botClient.GetMeAsync().Result;
             Console.WriteLine(
               $"Hello, World! I am user {me.Id} and my name is {me.FirstName}."
             );
@@ -32,12 +37,11 @@ namespace IMBDTgBot
         {
             if (e.Message.Text != null)
             {
-                using (imdbContext context = new imdbContext()) 
-                {
+                
                     Console.WriteLine($"Received a text message in chat {e.Message.Chat.Id}.");
                     Console.WriteLine(e.Message.Text);
                     Random rnd = new Random();
-                    var titles = context.Titles.Where(x => x.TitleType == "movie").ToList();
+                    var titles = Titles.Where(x => x.TitleType == "movie").ToList();
                     string title = titles[rnd.Next(0, titles.Count)].Tconst;
 
                     await botClient.SendTextMessageAsync(
@@ -45,7 +49,7 @@ namespace IMBDTgBot
                       text: "https://www.imdb.com/title/"+title
 
                     );
-                }
+                
             }
         }
     }
